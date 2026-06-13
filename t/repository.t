@@ -9,7 +9,7 @@ my $version = qx{./scripts/plugin-version.sh};
 chomp $version;
 
 is($? >> 8, 0, 'reads the plugin version');
-is($version, '0.2.0', 'repository test uses the current plugin version');
+is($version, '0.2.1', 'repository test uses the current plugin version');
 
 is(system('./scripts/build-release.sh'), 0, 'builds the release archive');
 is(

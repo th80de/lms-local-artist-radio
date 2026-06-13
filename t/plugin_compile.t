@@ -67,6 +67,19 @@ BEGIN {
 	package Plugins::LocalArtistRadio::Mixer;
 	sub import {}
 	$INC{'Plugins/LocalArtistRadio/Mixer.pm'} = 1;
+
+	package LocalArtistRadioTestClient;
+	sub new {
+		return bless {
+			plugin_data => {},
+		}, shift;
+	}
+	sub master { $_[0] }
+	sub pluginData {
+		my ($self, $key, $value) = @_;
+		$self->{plugin_data}->{$key} = $value if @_ > 2 && defined $value;
+		return $self->{plugin_data}->{$key};
+	}
 }
 
 use lib '.';
@@ -79,7 +92,7 @@ my $loaded = eval {
 ok($loaded, 'Plugin.pm compiles with LMS interfaces available') or diag $@;
 
 SKIP: {
-	skip 'Plugin.pm did not compile', 4 unless $loaded;
+	skip 'Plugin.pm did not compile', 7 unless $loaded;
 
 	my $prefs_dir = tempdir(CLEANUP => 1);
 	my $material_dir = File::Spec->catdir($prefs_dir, 'material-skin');
@@ -121,6 +134,57 @@ SKIP: {
 		qr{material-button\.js\?v=0\.2\.0},
 		'Material loader contains the current UI version',
 	);
+
+	{
+		no warnings qw(redefine once);
+
+		my $client = LocalArtistRadioTestClient->new;
+		my $state = {
+			active => 1,
+			seed_artist_id => 1,
+		};
+		$client->pluginData(
+			Plugins::LocalArtistRadio::Plugin::STATE_KEY(),
+			$state,
+		);
+
+		local *Plugins::LocalArtistRadio::Mixer::build_batch = sub {
+			my ($class, %args) = @_;
+			$args{callback}->(
+				[
+					'file:///music/repeat-1.flac',
+					'file:///music/repeat-2.flac',
+				],
+				$state,
+				undef,
+			);
+		};
+
+		my ($callback_client, $callback_tracks);
+		Plugins::LocalArtistRadio::Plugin::_refill(
+			$client,
+			sub {
+				($callback_client, $callback_tracks) = @_;
+			},
+		);
+
+		is($callback_client, $client, 'refill completes DSTM for the active client');
+		is_deeply(
+			$callback_tracks,
+			[
+				'file:///music/repeat-1.flac',
+				'file:///music/repeat-2.flac',
+			],
+			'refill returns the generated tracks to DSTM',
+		);
+
+		Plugins::LocalArtistRadio::Plugin::_deactivate($client);
+		is(
+			$client->pluginData(Plugins::LocalArtistRadio::Plugin::STATE_KEY()),
+			0,
+			'deactivation clears the active radio state',
+		);
+	}
 }
 
 done_testing;

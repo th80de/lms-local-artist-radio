@@ -4,7 +4,7 @@
 	<id>8A374112-1D8F-4F68-A46F-9F38DCB9A4A1</id>
 	<name>PLUGIN_LOCALARTISTRADIO_NAME</name>
 	<module>Plugins::LocalArtistRadio::Plugin</module>
-	<version>0.2.0</version>
+	<version>0.2.1</version>
 	<description>PLUGIN_LOCALARTISTRADIO_DESC</description>
 	<creator>Thomas Hoppe</creator>
 	<category>playlists</category>

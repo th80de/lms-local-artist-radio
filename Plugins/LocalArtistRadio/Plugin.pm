@@ -249,7 +249,7 @@ sub _cli_play {
 		recent_artists => [],
 		used_urls => {},
 	};
-	$client->pluginData(STATE_KEY => $state);
+	$client->pluginData(STATE_KEY, $state);
 	$request->setStatusProcessing();
 
 	Plugins::LocalArtistRadio::Mixer->build_batch(
@@ -265,7 +265,7 @@ sub _cli_play {
 				return;
 			}
 
-			$client->pluginData(STATE_KEY => $updated_state);
+			$client->pluginData(STATE_KEY, $updated_state);
 			$dstm_prefs->client($client)->set('provider', PROVIDER_TOKEN);
 
 			my $load = $client->execute([
@@ -310,7 +310,7 @@ sub _refill {
 		count => REFILL_TRACKS,
 		callback => sub {
 			my ($tracks, $updated_state, $error) = @_;
-			$client->pluginData(STATE_KEY => $updated_state);
+			$client->pluginData(STATE_KEY, $updated_state);
 			$log->warn("Could not refill local artist radio: $error") if $error;
 			$callback->($client, $tracks || []);
 		},
@@ -345,7 +345,7 @@ sub _deactivate {
 		);
 	}
 
-	$client->pluginData(STATE_KEY => undef);
+	$client->pluginData(STATE_KEY, 0);
 }
 
 1;

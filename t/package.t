@@ -27,7 +27,7 @@ close $install;
 
 like($xml, qr{<module>Plugins::LocalArtistRadio::Plugin</module>}, 'manifest module is correct');
 like($xml, qr{<minVersion>9\.0</minVersion>}, 'manifest targets LMS 9');
-like($xml, qr{<version>0\.2\.0</version>}, 'manifest version is set');
+like($xml, qr{<version>0\.2\.1</version>}, 'manifest version is set');
 
 open my $library, '<', "$root/LocalLibrary.pm" or die $!;
 my $source = do { local $/; <$library> };
@@ -49,6 +49,11 @@ unlike(
 	$plugin_source,
 	qr{Slim::Control::Request->new\(\s*\$client},
 	'does not pass a client object where LMS expects a client ID',
+);
+unlike(
+	$plugin_source,
+	qr{pluginData\(\s*STATE_KEY\s*=>},
+	'stores radio state under the value of STATE_KEY',
 );
 like(
 	$plugin_source,
