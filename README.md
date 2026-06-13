@@ -24,14 +24,6 @@ https://raw.githubusercontent.com/th80de/lms-local-artist-radio/main/extensions.
 Save the LMS plugin settings, select **Local Artist Radio**, and restart LMS
 when prompted.
 
-## Development
-
-The plugin source is in `Plugins/LocalArtistRadio`. Run the tests with:
-
-```sh
-prove -I. -v t
-```
-
 ## License
 
 GPL-2.0-or-later
