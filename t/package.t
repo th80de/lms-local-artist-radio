@@ -88,8 +88,24 @@ for my $repository_file (qw(
 	scripts/plugin-version.sh
 	scripts/build-repository.sh
 	CHANGELOG.md
+	extensions.xml
 )) {
 	ok(-f $repository_file, "$repository_file supports GitHub distribution");
 }
+
+open my $published_repository, '<', 'extensions.xml' or die $!;
+my $published_repository_source = do { local $/; <$published_repository> };
+close $published_repository;
+
+like(
+	$published_repository_source,
+	qr{https://github\.com/th80de/lms-local-artist-radio/releases/download/v0\.2\.0/LocalArtistRadio-0\.2\.0\.zip},
+	'published repository points to the GitHub release asset',
+);
+like(
+	$published_repository_source,
+	qr{<sha>[0-9a-f]{40}</sha>},
+	'published repository contains an LMS SHA-1 digest',
+);
 
 done_testing;

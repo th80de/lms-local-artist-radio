@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extensions>
+  <details>
+    <title lang="EN">Local Artist Radio</title>
+    <title lang="DE">Lokales Interpreten-Radio</title>
+  </details>
+  <plugins>
+    <plugin name="LocalArtistRadio" version="0.2.0" minTarget="9.0" maxTarget="*">
+      <title lang="EN">Local Artist Radio</title>
+      <title lang="DE">Lokales Interpreten-Radio</title>
+      <desc lang="EN">Creates a continuous artist radio using Last.fm similarity data and local music files only.</desc>
+      <desc lang="DE">Erstellt ein kontinuierliches Interpreten-Radio mit Last.fm-Ähnlichkeitsdaten und ausschließlich lokalen Musikdateien.</desc>
+      <changes lang="EN">See the GitHub release notes for changes.</changes>
+      <changes lang="DE">Änderungen stehen in den GitHub Release Notes.</changes>
+      <creator>Thomas Hoppe</creator>
+      <category>playlists</category>
+      <link>https://github.com/th80de/lms-local-artist-radio</link>
+      <url>https://github.com/th80de/lms-local-artist-radio/releases/download/v0.2.0/LocalArtistRadio-0.2.0.zip</url>
+      <sha>d8438bb8dc691f65fd07e65d5c3d2d21407efefe</sha>
+    </plugin>
+  </plugins>
+</extensions>

@@ -14,20 +14,21 @@ restricted to local files.
 ## Install from the LMS plugin manager
 
 After publishing this repository publicly on GitHub and creating the first
-release, enable GitHub Pages with **GitHub Actions** as its source. LMS cannot
-download releases or repository metadata from a private GitHub repository.
+release, add the raw `extensions.xml` URL under **Settings > Plugins >
+Additional Repositories** in LMS. LMS cannot download releases or repository
+metadata from a private GitHub repository.
 
 Add this URL under **Settings > Plugins > Additional Repositories** in LMS:
 
 ```text
-https://GITHUB-USER.github.io/REPOSITORY/extensions.xml
+https://raw.githubusercontent.com/GITHUB-USER/REPOSITORY/main/extensions.xml
 ```
 
 For example, a repository named `lms-local-artist-radio` owned by
 `example-user` would use:
 
 ```text
-https://example-user.github.io/lms-local-artist-radio/extensions.xml
+https://raw.githubusercontent.com/example-user/lms-local-artist-radio/main/extensions.xml
 ```
 
 Save the LMS plugin settings, select **Local Artist Radio**, and restart LMS
@@ -68,8 +69,6 @@ git commit -m "Initial Local Artist Radio release"
 git push -u origin main
 ```
 
-Enable **Settings > Pages > Build and deployment > Source: GitHub Actions**.
-
 For each release:
 
 1. Update the version in `Plugins/LocalArtistRadio/install.xml`.
@@ -84,8 +83,8 @@ git push origin v0.2.0
 ```
 
 The release workflow tests the plugin, builds the ZIP, calculates the SHA-1
-required by LMS, creates the GitHub release, and publishes `extensions.xml`
-through GitHub Pages.
+required by LMS, creates the GitHub release, and updates `extensions.xml` on
+the `main` branch.
 
 ## License
 

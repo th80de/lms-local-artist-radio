@@ -7,15 +7,10 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Check out repository
@@ -47,17 +42,17 @@ jobs:
               --title "Local Artist Radio $(./scripts/plugin-version.sh)"
           fi
 
-      - name: Prepare GitHub Pages
+      - name: Publish LMS repository manifest
         run: |
-          mkdir -p site
-          cp dist/extensions.xml site/extensions.xml
-
-      - name: Upload GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-
-      - name: Deploy GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
+          cp dist/extensions.xml /tmp/extensions.xml
+          git fetch origin main
+          git checkout -B main origin/main
+          cp /tmp/extensions.xml extensions.xml
+          if git diff --quiet -- extensions.xml; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extensions.xml
+          git commit -m "Update LMS repository for $GITHUB_REF_NAME [skip ci]"
+          git push origin main
