@@ -15,30 +15,14 @@ its artist view.
 
 ## Install from the LMS plugin manager
 
-After publishing this repository publicly on GitHub and creating the first
-release, add the raw `extensions.xml` URL under **Settings > Plugins >
-Additional Repositories** in LMS. LMS cannot download releases or repository
-metadata from a private GitHub repository.
-
-Add this URL under **Settings > Plugins > Additional Repositories** in LMS:
+Add this URL under **Settings > Plugins > Additional Repositories**:
 
 ```text
-https://raw.githubusercontent.com/GITHUB-USER/REPOSITORY/main/extensions.xml
-```
-
-For example, a repository named `lms-local-artist-radio` owned by
-`example-user` would use:
-
-```text
-https://raw.githubusercontent.com/example-user/lms-local-artist-radio/main/extensions.xml
+https://raw.githubusercontent.com/th80de/lms-local-artist-radio/main/extensions.xml
 ```
 
 Save the LMS plugin settings, select **Local Artist Radio**, and restart LMS
 when prompted.
-
-When migrating an existing manual installation, keep **Local Artist Radio**
-selected when saving the plugin settings. LMS can then manage the existing
-installation and future updates through this repository.
 
 ## Development
 
@@ -47,46 +31,6 @@ The plugin source is in `Plugins/LocalArtistRadio`. Run the tests with:
 ```sh
 prove -I. -v t
 ```
-
-Build the installable archive with:
-
-```sh
-./scripts/build-release.sh
-```
-
-Generate an LMS repository file locally with:
-
-```sh
-./scripts/build-repository.sh GITHUB-USER/REPOSITORY
-```
-
-## Publishing a release
-
-Create an empty GitHub repository, then connect and push this local repository:
-
-```sh
-git remote add origin git@github.com:GITHUB-USER/REPOSITORY.git
-git add .
-git commit -m "Initial Local Artist Radio release"
-git push -u origin main
-```
-
-For each release:
-
-1. Update the version in `Plugins/LocalArtistRadio/install.xml`.
-2. Update `CHANGELOG.md`.
-3. Commit and push the changes to the `main` branch.
-4. Create and push a matching version tag:
-
-```sh
-git tag v0.2.0
-git push origin main
-git push origin v0.2.0
-```
-
-The release workflow tests the plugin, builds the ZIP, calculates the SHA-1
-required by LMS, creates the GitHub release, and updates `extensions.xml` on
-the `main` branch.
 
 ## License
 
