@@ -1,0 +1,27 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run Perl tests
+        run: prove -I. -v t
+
+      - name: Check Material Skin JavaScript
+        run: node --check Plugins/LocalArtistRadio/HTML/EN/plugins/LocalArtistRadio/html/material-button.js
+
+      - name: Build and verify release archive
+        run: |
+          ./scripts/build-release.sh
+          unzip -t "dist/LocalArtistRadio-$(./scripts/plugin-version.sh).zip"
+

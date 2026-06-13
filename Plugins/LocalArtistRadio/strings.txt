@@ -1,0 +1,15 @@
+PLUGIN_LOCALARTISTRADIO_NAME
+	DE	Lokales Interpreten-Radio
+	EN	Local Artist Radio
+
+PLUGIN_LOCALARTISTRADIO_DESC
+	DE	Erstellt ein kontinuierliches Interpreten-Radio mit Last.fm-Ähnlichkeitsdaten und ausschließlich lokalen Musikdateien.
+	EN	Creates a continuous artist radio using Last.fm similarity data and local music files only.
+
+PLUGIN_LOCALARTISTRADIO_ACTION
+	DE	Lokales Interpreten-Radio starten
+	EN	Start local artist radio
+
+PLUGIN_RANDOM_LOCALARTISTRADIO_PROVIDER
+	DE	Lokales Interpreten-Radio
+	EN	Local Artist Radio

@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate tag and run tests
+        run: |
+          version="$(./scripts/plugin-version.sh)"
+          test "$GITHUB_REF_NAME" = "v$version"
+          prove -I. -v t
+          node --check Plugins/LocalArtistRadio/HTML/EN/plugins/LocalArtistRadio/html/material-button.js
+
+      - name: Build release and LMS repository
+        run: |
+          ./scripts/build-release.sh
+          ./scripts/build-repository.sh
+          unzip -t "dist/LocalArtistRadio-$(./scripts/plugin-version.sh).zip"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          archive="dist/LocalArtistRadio-$(./scripts/plugin-version.sh).zip"
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "$archive" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" "$archive" \
+              --generate-notes \
+              --title "Local Artist Radio $(./scripts/plugin-version.sh)"
+          fi
+
+      - name: Prepare GitHub Pages
+        run: |
+          mkdir -p site
+          cp dist/extensions.xml site/extensions.xml
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
