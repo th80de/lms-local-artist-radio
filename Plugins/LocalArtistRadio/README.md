@@ -16,12 +16,15 @@ the plugin continues with local tracks by the selected artist.
 ## Requirements
 
 - Lyrion Music Server 9.x
-- Material Skin
 - LastMix 2.4.2 or newer, enabled
 - Don't Stop The Music, enabled
 
 LastMix provides the authenticated Last.fm adapter. This plugin never asks an
 online music service for playable tracks.
+
+Material Skin is optional. When enabled, the plugin adds a dedicated **Local
+Artist Radio** button to its artist view. Without Material Skin, the action
+remains available from the artist's **More** menu and through the CLI.
 
 ## Installation
 
@@ -29,7 +32,8 @@ Extract the release archive into the LMS `Plugins` directory so the final path
 is `Plugins/LocalArtistRadio/Plugin.pm`, then restart LMS. Install and enable
 LastMix and Don't Stop The Music before enabling Local Artist Radio.
 
-In Material Skin, open an artist and select **Local Artist Radio** next to the
+To start the radio, open an artist and select **Local Artist Radio** from the
+artist's **More** menu. In Material Skin, the action is also shown next to the
 standard artist mix button. After the first installation or an update, reload
 Material Skin once while bypassing the browser cache.
 

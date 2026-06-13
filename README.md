@@ -7,9 +7,11 @@ restricted to local files.
 ## Requirements
 
 - Lyrion Music Server 9.x
-- Material Skin
 - LastMix 2.4.2 or newer
 - Don't Stop The Music
+
+Material Skin is optional. When enabled, the plugin adds a dedicated button to
+its artist view.
 
 ## Install from the LMS plugin manager
 
